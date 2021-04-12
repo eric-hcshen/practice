@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: mysql
+  labels:
+    app: mysql
+    version: "5.7"
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: mysql
+      version: "5.7"
+  template:
+    metadata:
+      labels:
+        app: mysql
+        version: "5.7"
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:5
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-storage
+              mountPath: "/var/lib/mysql"
+              subPath: "mysql" 
+            - name: mysql-conf
+              mountPath: /etc/mysql/conf.d
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: ROOT_PASSWORD
+      volumes:
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: mysql-storage
+        - name: mysql-conf
+          configMap:
+            name: mysql-conf
