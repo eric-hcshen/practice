@@ -1,4 +1,14 @@
-# Mount docker volume
+#Interact with Docker
+
+- Mount Disk
+> docker run -it -v ~/.:/opt/project/test-project nginx:1.14.1-alpine bin/sh
+
+- Name a docker and Link two docker
+> docker run -it --name nginx nginx:1.14.1-alpine bin/sh
+> docker run -it --link xxx:nginx nginx:1.14.1-alpine bin/sh
+> # ping nginx
+
+#Mount docker volume
  [Mount](https://ithelp.ithome.com.tw/articles/10207973)
 
  - Create volumn
@@ -63,17 +73,6 @@ bash: line 36: exec: ncat: not found
 
 [Installing Percona XtraBackup from Percona Centos yum repository](https://www.percona.com/doc/percona-xtrabackup/2.4/installation/yum_repo.html)
 
-# Mount docker volume
- [Mount](https://ithelp.ithome.com.tw/articles/10207973)
-
- - Create volumn
- >docker volume create my-vol
- - List volumn
- >docker volume
- - Inspec volumn
- > docker volume inspect my-vol
- - Mount volumn at start
- >docker run -d --name devtest -v myvol2:/app nginx:latest
 
 # Prepare docker image for mysql, nc and db benchmark tool
 
@@ -83,6 +82,7 @@ bash: line 36: exec: ncat: not found
 > docker pull centos/mysql-80-centos7
 - Run database
 > docker run -d --name mysql_database -e MYSQL_USER=user -e MYSQL_PASSWORD=pass -e MYSQL_DATABASE=db -p 3306:3306 rhscl/mysql-80-rhel7
+> docker run -e MYSQL_USER=user -e MYSQL_PASSWORD=pass -e MYSQL_DATABASE=db -p 3333:3306 centos/mysql-80-centos7:latest
 
 # Percona percona-xtradb-cluster-operator
 [percona/percona-xtradb-cluster-operator](https://github.com/percona/percona-xtradb-cluster-operator)
